@@ -135,3 +135,19 @@ a {
 [hidden]{
     display: none !important;
 }
+
+.tables{
+    margin-top:20px;
+}
+
+.topBtn{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.bottom-pag{
+    margin-top:20px;
+    display: flex;
+    justify-content: flex-end;
+}

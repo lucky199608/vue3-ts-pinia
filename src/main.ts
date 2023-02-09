@@ -5,10 +5,15 @@ import App from './App.vue';
 import router from './router';
 import { usePermissStore } from './store/permiss';
 import 'element-plus/dist/index.css';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import './assets/css/icon.css';
+import '@/assets/css/element.less'
+
 
 const app = createApp(App);
-app.use(createPinia());
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate); //实现数据持久化
+app.use(pinia);
 app.use(router);
 
 // 注册elementplus图标

@@ -73,6 +73,11 @@ const items = [
                 title: '常用表格',
                 permiss: '2',
             },
+          {
+            index: '/test1',
+            title: '测试1',
+            permiss: '2',
+          },
             {
                 index: '/import',
                 title: '导入Excel',
