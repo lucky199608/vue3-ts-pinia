@@ -18,6 +18,9 @@ export const dicApi = (type:string)=>{
                 },{
                     value:'2',
                     label:'女'
+                },{
+                    value:'3',
+                    label:'未知'
                 }]
                 break
             case 'tree':
@@ -60,40 +63,7 @@ export const dicApi = (type:string)=>{
     })
  }
 
- export interface TableData {
-     aId:string
-     aName:string
-     aAge:string
-     aTime:string
-     aSex:string
-     aOrg:string
-     aPublic:string
- }
 
- export const tableApi = (searchForm:{current:number;size:number})=>{
-    return new Promise((resolve,reject)=>{
-        let data = <TableData[]>[]
-        for(let i = 1;i < 100;i++){
-            data.push({
-                aId:i + '',
-                aName:'张' + i,
-                aAge:'18',
-                aTime:"1998-01-01",
-                aSex:"1",
-                aOrg:'综合室',
-                aPublic:'单位'
-            })
-        }
 
-        setTimeout(()=>{
-            let start = <number>0
-            let end = <number>1
-            start = (searchForm.current - 1) * searchForm.size
-            end = searchForm.current * searchForm.size
-            resolve({
-                data:data.slice(start,end),
-                total:data.length
-            })
-        },500)
-    })
- }
+
+

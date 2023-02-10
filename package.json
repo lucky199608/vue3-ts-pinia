@@ -22,6 +22,18 @@
 		"wangeditor": "^4.7.15",
 		"xlsx": "^0.18.5"
 	},
+	"prettier": "eslint-config-jsc-front-lint/.prettierrc.json",
+	"eslintConfig": {
+		"rules": {
+			"@typescript-eslint/no-var-requires": "off",
+			"@typescript-eslint/no-explicit-any": [
+				"off"
+			]
+		},
+		"extends": [
+			"eslint-config-jsc-front-lint"
+		]
+	},
 	"devDependencies": {
 		"@vitejs/plugin-vue": "^3.0.0",
 		"@vue/compiler-sfc": "^3.1.2",
@@ -30,7 +42,9 @@
 		"unplugin-vue-components": "^0.22.4",
 		"vite": "^3.0.0",
 		"vite-plugin-vue-setup-extend": "^0.4.0",
-		"vue-tsc": "^0.38.4"
+		"vue-tsc": "^0.38.4",
+		"@vue/cli-plugin-eslint": "~4.5.0",
+		"eslint-config-jsc-front-lint": "^1.0.8"
 	},
 	"browserslist": [
 		"> 1%",

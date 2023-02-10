@@ -17,6 +17,7 @@ export const usePermissStore = defineStore('permiss', {
 	},
 	actions: {
 		handleSet(val: string[]) {
+			console.log('走了没')
 			this.key = val;
 		}
 	}

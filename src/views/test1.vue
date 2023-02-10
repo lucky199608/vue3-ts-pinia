@@ -11,29 +11,19 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="出生日期" prop="sTime">
-                <el-date-picker
-                    v-model="searchForm.sTime"
-                    type="date"
-                    style="width:100%"
-                    placeholder="请选择"
-                />
+                <el-date-picker v-model="searchForm.sTime" value-format="YYYY-MM-DD" type="date" style="width: 100%" placeholder="请选择" />
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="性别" prop="sSex">
-                <el-select style="width:100%" clearable v-model="searchForm.sSex" placeholder="请选择">
-                  <el-option
-                      v-for="item in dicData.sexOptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                  />
+                <el-select style="width: 100%" clearable v-model="searchForm.sSex" placeholder="请选择">
+                  <el-option v-for="item in dicData.sexOptions" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="组织机构" prop="sOrg">
-                <el-tree-select style="width:100%" clearable v-model="searchForm.sOrg" :data="dicData.treeData" :render-after-expand="false" />
+                <el-tree-select style="width: 100%" clearable v-model="searchForm.sOrg" :data="dicData.treeData" :render-after-expand="false" />
               </el-form-item>
             </el-col>
             <el-col :span="16">
@@ -63,31 +53,26 @@
             <template #default="scope">
               <el-button type="primary" link @click="see(scope.row)">查看</el-button>
               <el-button type="primary" link @click="edit(scope.row)">编辑</el-button>
-              <el-button type="primary" link @click="del">删除</el-button>
+              <el-button type="primary" link @click="del(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
         <div class="bottom-pag">
           <el-pagination
-              v-model:current-page="tableData.current"
-              v-model:page-size="tableData.size"
-              :page-sizes="[10 ,20, 30, 50]"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="tableData.total"
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
+            v-model:current-page="tableData.current"
+            v-model:page-size="tableData.size"
+            :page-sizes="[10, 20, 30, 50]"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="tableData.total"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
           />
         </div>
       </el-card>
     </div>
 
     <!--  弹框-->
-    <el-dialog
-        v-model="addFormData.dialogVisible"
-        :title="addFormData.dialogTitle"
-        width="30%"
-        @close="cancel"
-    >
+    <el-dialog v-model="addFormData.dialogVisible" :title="addFormData.dialogTitle" width="30%" @close="cancel">
       <el-form :model="addFormData.addForm" ref="addFormRef" :rules="rules" label-width="80px">
         <el-row :gutter="16">
           <el-col :span="24">
@@ -98,29 +83,32 @@
           <el-col :span="24">
             <el-form-item label="出生日期" prop="aTime">
               <el-date-picker
-                  v-model="addFormData.addForm.aTime"
-                  type="date"
-                  style="width:100%"
-                  :disabled="addFormData.disabled"
-                  placeholder="请选择"
+                v-model="addFormData.addForm.aTime"
+                type="date"
+                value-format="YYYY-MM-DD"
+                style="width: 100%"
+                :disabled="addFormData.disabled"
+                placeholder="请选择"
               />
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="性别" prop="aSex">
-              <el-select style="width:100%" clearable :disabled="addFormData.disabled" v-model="addFormData.addForm.aSex" placeholder="请选择">
-                <el-option
-                    v-for="item in dicData.sexOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                />
+              <el-select style="width: 100%" clearable :disabled="addFormData.disabled" v-model="addFormData.addForm.aSex" placeholder="请选择">
+                <el-option v-for="item in dicData.sexOptions" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="组织机构" prop="aOrg">
-              <el-tree-select style="width:100%" clearable :disabled="addFormData.disabled" v-model="addFormData.addForm.aOrg" :data="dicData.treeData" :render-after-expand="false" />
+              <el-tree-select
+                style="width: 100%"
+                clearable
+                :disabled="addFormData.disabled"
+                v-model="addFormData.addForm.aOrg"
+                :data="dicData.treeData"
+                :render-after-expand="false"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -139,33 +127,32 @@
 </template>
 
 <script setup lang="ts" name="test1">
-
-import {onMounted, ref, reactive, nextTick} from "vue";
-import {Sex, dicApi, TreeData,tableApi, TableData} from '@/api/test1'
-import { ElMessage, ElMessageBox,FormRules  } from 'element-plus'
-import { useTestStore } from '@/store/modules/test1'
+import { onMounted, ref, reactive, nextTick } from 'vue'
+import { Sex, dicApi, TreeData } from '@/api/test1'
+import { ElMessage, ElMessageBox, FormRules } from 'element-plus'
+import { useTest1Store, TableData } from '@/store/test1'
 
 //搜索表单
-const searchEvent = ()=>{
+const searchEvent = () => {
   interface SearchForm {
-    sName:string
-    sTime:string
-    sSex:string
-    sOrg:string
-    aaa?:string
+    sName: string
+    sTime: string
+    sSex: string
+    sOrg: string
+    aaa?: string
   }
   const searchFormRef = ref()
   const searchForm = reactive<SearchForm>({
-    sName:'',
-    sTime:'',
-    sSex:'',
-    sOrg:'',
+    sName: '',
+    sTime: '',
+    sSex: '',
+    sOrg: ''
   })
-  const reset = ()=>{
+  const reset = () => {
     searchFormRef.value.resetFields()
-    getList()
+    // getList()
   }
-  const search = ()=>{
+  const search = () => {
     tableData.current = 1
     getList()
   }
@@ -173,100 +160,98 @@ const searchEvent = ()=>{
     searchFormRef,
     searchForm,
     reset,
-    search,
+    search
   }
 }
-
-const {searchFormRef,searchForm,reset,search,} = searchEvent()
+const { searchFormRef, searchForm, reset, search } = searchEvent()
 
 //获取字典值
-const getDicEvent = ()=>{
+const getDicEvent = () => {
   const dicData = reactive({
-    sexOptions:<Sex[]>[],
-    treeData:<TreeData[]>[]
+    sexOptions: [] as Sex[],
+    treeData: [] as TreeData[]
   })
-  const getDic = ()=>{
-    dicApi('sex').then((res:any)=>{
+  const getDic = () => {
+    dicApi('sex').then((res: any) => {
       dicData.sexOptions = res
     })
-    dicApi('tree').then((res:any)=>{
+    dicApi('tree').then((res: any) => {
       dicData.treeData = res
     })
   }
   return {
     dicData,
-    getDic,
+    getDic
   }
 }
-
-const { dicData,getDic } = getDicEvent()
+const { dicData, getDic } = getDicEvent()
 
 //列表
-const tableListEvent = ()=>{
+const tableListEvent = () => {
   const loading = ref(false)
   const tableData = reactive({
-    data:<TableData[]>[],
-    current:<number>1,
-    size:<number>10,
-    total:<number>0,
+    data: [] as TableData[],
+    current: 1 as number,
+    size: 10 as number,
+    total: 0 as number
   })
-  const getList = ()=>{
+  const getList = () => {
     loading.value = true
-    tableApi({
-      current:tableData.current,
-      size:tableData.size
-    }).then((res:any)=>{
-      loading.value = false
-      tableData.data = res.data
-      tableData.total = res.total
-    })
+    useTest1Store()
+        .tableApi({
+          current: tableData.current,
+          size: tableData.size
+        })
+        .then((res: any) => {
+          loading.value = false
+          tableData.data = res.data
+          tableData.total = res.total
+        })
   }
-  const handleSizeChange = (size:number)=>{
-    console.log('size',size)
+  const handleSizeChange = (size: number) => {
+    console.log('size', size)
     tableData.size = size
     getList()
   }
-  const handleCurrentChange = (current:number)=>{
-    console.log('current',current)
+  const handleCurrentChange = (current: number) => {
+    console.log('current', current)
     tableData.current = current
     getList()
   }
-  const see = (row:TableData)=>{
+  const see = (row: TableData) => {
     addFormData.dialogTitle = '查看'
     addFormData.disabled = true
     addFormData.dialogVisible = true
-    nextTick(()=>{
-      Object.assign(addFormData.addForm,row)
+    nextTick(() => {
+      Object.assign(addFormData.addForm, row)
     })
   }
-  const edit = (row:TableData)=>{
+  const edit = (row: TableData) => {
     addFormData.dialogTitle = '编辑'
     addFormData.disabled = false
     addFormData.dialogVisible = true
-    nextTick(()=>{
-      Object.assign(addFormData.addForm,row)
+    nextTick(() => {
+      Object.assign(addFormData.addForm, row)
     })
   }
-  const del = ()=>{
-    ElMessageBox.confirm(
-        '确定删除吗?',
-        '删除',
-        {
-          confirmButtonText: '确认',
-          cancelButtonText: '取消',
-          type: 'warning',
-        }
-    )
-        .then(() => {
+  const del = (row:TableData) => {
+    ElMessageBox.confirm('确定删除吗?', '删除', {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+        .then(async () => {
+          await useTest1Store().delTable(row.aId as string)
+          getList()
           ElMessage({
             type: 'success',
-            message: '删除成功',
+            message: '删除成功'
           })
         })
         .catch(() => {
           ElMessage({
             type: 'info',
-            message: '删除取消',
+            message: '删除取消'
           })
         })
   }
@@ -278,78 +263,67 @@ const tableListEvent = ()=>{
     handleCurrentChange,
     see,
     edit,
-    del,
+    del
   }
 }
-
-const { loading,tableData,getList,handleSizeChange,handleCurrentChange,see,edit,del } = tableListEvent()
+const { loading, tableData, getList, handleSizeChange, handleCurrentChange, see, edit, del } = tableListEvent()
 
 //弹框
-const dialogEvent = ()=>{
+const dialogEvent = () => {
   interface AddForm {
-    aName:string
-    aTime:string
-    aSex:string
-    aOrg:string
-    aPublic:string
-    aId?:string
+    aName: string
+    aTime: string
+    aSex: string
+    aOrg: string
+    aPublic: string
+    aId?: string
   }
   const addFormRef = ref()
-  const addFormData  = reactive({
-    dialogVisible:<boolean>false,
-    disabled:<boolean>false,
-    dialogTitle:<string>'',
-    addForm:<AddForm>{
-      aName:'',
-      aTime:'',
-      aSex:'',
-      aOrg:'',
-      aPublic:''
-    },
+  const addFormData = reactive({
+    dialogVisible: false as boolean,
+    disabled: false as boolean,
+    dialogTitle: '' as string,
+    addForm: {
+      aName: '',
+      aTime: '',
+      aSex: '',
+      aOrg: '',
+      aPublic: ''
+    } as AddForm
   })
   const rules = reactive<FormRules>({
-    aName: [
-      { required: true, message: '请输入姓名', trigger: ['blur','change'] },
-    ],
-    aTime: [
-      { required: true, message: '请选择出生日期', trigger: ['blur','change'] },
-    ],
-    aSex: [
-      { required: true, message: '请选择性别', trigger: ['blur','change'] },
-    ],
-    aOrg: [
-      { required: true, message: '请选择组织机构', trigger: ['blur','change'] },
-    ],
+    aName: [{ required: true, message: '请输入姓名', trigger: ['blur', 'change'] }],
+    aTime: [{ required: true, message: '请选择出生日期', trigger: ['blur', 'change'] }],
+    aSex: [{ required: true, message: '请选择性别', trigger: ['blur', 'change'] }],
+    aOrg: [{ required: true, message: '请选择组织机构', trigger: ['blur', 'change'] }]
   })
-  const cancel = ()=>{
+  const cancel = () => {
     addFormRef.value.resetFields()
     addFormData.dialogVisible = false
   }
-  const sure = ()=>{
-    addFormRef.value.validate((valid:any)=>{
-      if(valid){
+  const sure = () => {
+    addFormRef.value.validate(async (valid: any) => {
+      if (valid) {
+        await useTest1Store().editTable(addFormData.addForm)
+        getList()
         cancel()
       }
     })
-
   }
   return {
     addFormRef,
     addFormData,
     rules,
     cancel,
-    sure,
+    sure
   }
 }
+const { addFormRef, addFormData, rules, cancel, sure } = dialogEvent()
 
-const { addFormRef,addFormData,rules,cancel,sure } = dialogEvent()
-
-onMounted(()=>{
+onMounted(() => {
   getDic()
   getList()
 })
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>
